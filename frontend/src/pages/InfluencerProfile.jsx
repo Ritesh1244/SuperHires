@@ -27,7 +27,7 @@ const InfluencerProfile = () => {
   useEffect(() => {
     const fetchInfluencer = async () => {
       try {
-        const response = await fetch("http://localhost:9000/api/influencerDetails/BethFratesMD");
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/influencerDetails/BethFratesMD`);
         if (!response.ok) throw new Error("Failed to fetch data");
         const data = await response.json();
         setInfluencer(data);

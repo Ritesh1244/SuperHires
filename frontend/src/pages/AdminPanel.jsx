@@ -77,7 +77,7 @@
       };
 
       try {
-        const response = await fetch('http://localhost:9000/api/research', {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/research`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
