@@ -38,7 +38,7 @@ This project aims to bring clarity and credibility to online health information 
 - Uses `twikit` to scrape recent tweets from a specified health influencer.
 - Extracts key metadata such as tweet text, likes, comments, and retweets.
 - Stores influencer profile information and tweets in the database.
-
+--Give to open Ai Model for varefying the claim what influencier are making in tweet
 ```python
 async def fetch_tweet_data(influencer_username, min_tweets):
     client = Client(language='en-US')
