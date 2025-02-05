@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { TrendingUp, DollarSign, Package, Users, Search, Filter, SlidersHorizontal } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 const InfluencerProfile = () => {
+  const { handle } = useParams();
+console.log("handle from URL:", handle);
+
   const [influencer, setInfluencer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,9 +31,10 @@ const InfluencerProfile = () => {
   useEffect(() => {
     const fetchInfluencer = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/influencerDetails/BethFratesMD`);
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/influencerDetails/${handle}`);
         if (!response.ok) throw new Error("Failed to fetch data");
         const data = await response.json();
+        console.log("influencier data", data);
         setInfluencer(data);
       } catch (err) {
         setError(err.message);
@@ -39,7 +44,7 @@ const InfluencerProfile = () => {
     };
 
     fetchInfluencer();
-  }, []);
+  }, [handle]);
 
   if (loading) return <div className="text-center text-gray-400">Loading...</div>;
   if (error) return <div className="text-center text-red-500">Error: {error}</div>;

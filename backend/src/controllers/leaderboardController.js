@@ -25,8 +25,7 @@ exports.getLeaderboard = async (req, res) => {
 
       const trustScore =
         totalClaims > 0
-          ? influencer.claims.reduce((sum, claim) => sum + claim.trustScore, 0) /
-            totalClaims
+          ? influencer.claims.reduce((sum, claim) => sum + claim.trustScore, 0) / totalClaims
           : 0;
 
       const trustScoreHistory = influencer.trustScoreHistory || [];
@@ -44,6 +43,7 @@ exports.getLeaderboard = async (req, res) => {
 
       return {
         name: influencer.name,
+        handle: influencer.handle, // Include the unique Twitter handle
         category,
         trustScore: trustScore.toFixed(2),
         trend: trend.toFixed(2),
@@ -74,3 +74,4 @@ exports.getLeaderboard = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch leaderboard data" });
   }
 };
+

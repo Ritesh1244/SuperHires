@@ -1,6 +1,7 @@
   import React, { useState } from 'react';
   import { ArrowLeft, Plus, Search } from 'lucide-react';
   import { Link } from 'react-router-dom';
+  import { useNavigate } from "react-router-dom";
 
   const AdminPanel = () => {
     const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@
     ]);
     const [notes, setNotes] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleTimeRangeClick = (range) => {
       setTimeRange(range);
@@ -97,6 +99,7 @@
       } finally {
         setLoading(false);
       }
+      navigate("/leaderboard");
     };
 
     return (
@@ -347,9 +350,7 @@
             )}
             {loading ? 'Processing...' : 'Start Research'}
           </button>
-          {/* <Link to={`/influencer/${influencer.id}`} className="text-emerald-500 hover:underline">
-                    {influencer.name}
-          </Link> */}
+        
         </div>
       </div>
     );

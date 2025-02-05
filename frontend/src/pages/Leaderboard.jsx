@@ -13,6 +13,8 @@ const Leaderboard = () => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/leaderboard`);
         if (!response.ok) throw new Error("Failed to fetch leaderboard data");
         const data = await response.json();
+        // console.log("getting data", data);
+        
         setLeaderboardData(data);
       } catch (err) {
         setError(err.message);
@@ -23,6 +25,7 @@ const Leaderboard = () => {
 
     fetchLeaderboard();
   }, []);
+  // console.log("getting data",data)
 
   if (loading) return <div className="text-center text-gray-400">Loading...</div>;
   if (error) return <div className="text-center text-red-500">Error: {error}</div>;
@@ -87,8 +90,8 @@ const Leaderboard = () => {
               <tr key={influencer.rank} className="border-t border-[#30363D] hover:bg-[#1C2128]">
                 <td className="px-6 py-4">#{influencer.rank}</td>
                 <td className="px-6 py-4">
-                  <Link to={`/influencer/${influencer.name}`} className="text-emerald-500 hover:underline">
-                    {influencer.name}
+                  <Link to={`/influencer/${influencer.handle}`} className="text-emerald-500 hover:underline">
+                    {influencer.handle}
                   </Link>
                 </td>
                 <td className="px-6 py-4">{influencer.category}</td>

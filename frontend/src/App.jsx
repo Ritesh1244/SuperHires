@@ -14,7 +14,7 @@ function App() {
           <Routes>
             <Route path="/" element={<AdminPanel />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/influencer/:id" element={<InfluencerProfile />} />
+            <Route path="/influencer/:handle" element={<InfluencerProfile />} />
           </Routes>
         </main>
       </div>
