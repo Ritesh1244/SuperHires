@@ -195,6 +195,7 @@ exports.performResearch = async (req, res) => {
 
     } catch (error) {
         console.error("Error in research endpoint:", error.message);
-        res.status(500).json({ error: "Failed to process research task." });
+        console.log("Error occurred while accessing the API -> /api/research:", error); 
+        res.status(500).json({ error: "Failed to process research task.",message:"in api/research" });
     }
 };
