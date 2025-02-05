@@ -5,7 +5,7 @@ const runPythonScript = require('../utils/scraper');
 
 const prisma = new PrismaClient();
 const BASE_URL = "https://openrouter.ai/api/v1";
-const DEEPSEEK_API_KEY = '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';
+const DEEPSEEK_API_KEY = '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';
 
 const categorizeClaim = (claim) => {
     const nutritionKeywords = ['creatine', 'supplement', 'cardiovascular health', 'blood vessel', 'heart health'];
@@ -29,18 +29,17 @@ const cleanTweetContent = (tweetText) => {
 exports.performResearch = async (req, res) => {
     try {
         const { 
-            researchType = 'specific',  // Default value: 'specific'
+            researchType = 'specific', 
             influencerName,
-            timeRange='Last Week',
+            timeRange = 'Last Week',
             tweetnumber,
-            numClaims = 0,  // Default value: 0
-            productsPerInfluencer = 0,  // Default value: 0
-            includeRevenueAnalysis = false,  // Default value: false
-            verifyWithJournals = false,  // Default value: false
-            journalsToUse = [],  // Default value: empty array
-            notes = ''  // Default value: empty string
-          } = req.body;
-          
+            numClaims = 0,  
+            productsPerInfluencer = 0,
+            includeRevenueAnalysis = false,
+            verifyWithJournals = false,
+            journalsToUse = [],
+            notes = ''
+        } = req.body;
 
         if (!influencerName || !numClaims) {
             return res.status(400).json({ error: 'Missing required fields. Please provide all inputs.' });
@@ -60,9 +59,10 @@ exports.performResearch = async (req, res) => {
             tweets = influencer.tweets;
         } else {
             console.log(`Influencer ${influencerName} not found or has no tweets. Fetching via scraping.`);
+            
             // **2. Scrape Twitter Data**
             const scrapedData = await runPythonScript(influencerName, tweetnumber);
-            console.log("scrapped data is",scrapedData)
+            console.log("scraped data is", scrapedData);
             if (!scrapedData || !scrapedData.profile || !scrapedData.tweets.length) {
                 return res.status(404).json({ error: 'No tweets found for this influencer.' });
             }
@@ -70,7 +70,7 @@ exports.performResearch = async (req, res) => {
             const { name, handle, bio, follower_count, following_count } = scrapedData.profile;
             tweets = scrapedData.tweets;
 
-            // **3. Store Influencer (Upsert to avoid duplicates)**
+            // **3. Store Influencer (only if tweets are found)**
             influencer = await prisma.influencer.upsert({
                 where: { handle },
                 update: { bio, followerCount: follower_count, followingCount: following_count },
@@ -132,7 +132,6 @@ exports.performResearch = async (req, res) => {
                         }
                     ]
                 };
-                
 
                 try {
                     const aiResponse = await axios.post(`${BASE_URL}/chat/completions`, aiRequestPayload, {
@@ -168,7 +167,7 @@ exports.performResearch = async (req, res) => {
                         data: {
                             influencerId: influencer.id,
                             contentSource: "Twitter",
-                            dateRange: timeRange, // Ensure this is handled correctly
+                            dateRange: timeRange,
                             claimText,
                             category,
                             verificationStatus,
@@ -195,7 +194,7 @@ exports.performResearch = async (req, res) => {
 
     } catch (error) {
         console.error("Error in research endpoint:", error.message);
-        console.log("Error occurred while accessing the API -> /api/research:", error); 
-        res.status(500).json({ error: "Failed to process research task.",message:"in api/research" });
+        res.status(500).json({ error: "Failed to process research task.", error: error.message });
     }
 };
+
