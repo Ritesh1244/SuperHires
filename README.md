@@ -49,3 +49,8 @@ async def fetch_tweet_data(influencer_username, min_tweets):
     await client.login(auth_info_1=username, auth_info_2=email, password=password)
     tweets = await client.search_tweet(f'(from:{influencer_username})', product='Top')
     return {'profile': influencer_data, 'tweets': tweets}
+
+✅ **Cloning the repository**  
+✅ **Backend setup (install, environment, database, run server)**  
+✅ **Frontend setup (install, run app)**  
+✅ **Deployment steps** 
