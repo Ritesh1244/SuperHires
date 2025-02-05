@@ -9,6 +9,7 @@
     const [influencerName, setInfluencerName] = useState('');
     const [timeRange, setTimeRange] = useState('Last Month');
     const [numClaims, setNumClaims] = useState(50);
+    const [tweetnumber,setTweetNumber] = useState(0)
     const [productsPerInfluencer, setProductsPerInfluencer] = useState(10);
     const [includeRevenue, setIncludeRevenue] = useState(false);
     const [verifyJournals, setVerifyJournals] = useState(false);
@@ -70,14 +71,16 @@
       const payload = {
         researchType,
         influencerName: researchType === 'specific' ? influencerName : '',
+        tweetnumber: parseInt(tweetnumber),  
         timeRange,
         numClaims: parseInt(numClaims),
         productsPerInfluencer: parseInt(productsPerInfluencer),
         includeRevenueAnalysis: includeRevenue,
         verifyWithJournals: verifyJournals,
-        journalsToUse: verifyJournals ? selectedJournals : []
+        journalsToUse: verifyJournals ? selectedJournals : [],
+        notes: notes || ''  // This ensures notes are sent as an empty string if not provided
       };
-
+      
       try {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}api/research`, {
           method: 'POST',
@@ -277,7 +280,18 @@
                   ></div>
                 </button>
               </div>
+              
             </div>
+            <div>
+  <label className="block text-sm font-medium mb-2">No of Tweets</label>
+  <input
+    type="number"
+    value={tweetnumber}
+    onChange={(e) => setTweetNumber(e.target.value)}
+    className="w-full bg-[#0D1117] border border-[#30363D] rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+  />
+</div>
+
           </div>
 
           <div className="mt-6">
