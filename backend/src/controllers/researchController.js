@@ -209,8 +209,8 @@ const runPythonScript = require('../utils/scraper');
 
 const prisma = new PrismaClient();
 const BASE_URL = "https://openrouter.ai/api/v1";
-const deepseekurl = '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';
-
+// const deepseekurl = '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';
+const openai_url= process.env.deepseek_url
 const categorizeClaim = (claim) => {
     const nutritionKeywords = ['creatine', 'supplement', 'cardiovascular health', 'blood vessel', 'heart health'];
     const medicineKeywords = ['medicine', 'treatment', 'prescription', 'doctor'];
@@ -232,7 +232,18 @@ const cleanClaimText = (text) => {
 
 exports.performResearch = async (req, res) => {
     try {
-        const { influencerName, tweetnumber, numClaims = 5,timeRange,verifyWithJournals,journalsToUse } = req.body;
+                    const { 
+                        researchType = 'specific', 
+                        influencerName,
+                        timeRange = 'Last Week',
+                        tweetnumber,
+                        numClaims = 0,  
+                        productsPerInfluencer = 0,
+                        includeRevenueAnalysis = false,
+                        verifyWithJournals = false,
+                        journalsToUse = [],
+                        notes = ''
+                    } = req.body;
 
         if (!influencerName || !numClaims) {
             return res.status(400).json({ error: 'Missing required fields. Please provide all inputs.' });
@@ -361,7 +372,7 @@ exports.performResearch = async (req, res) => {
                 try {
                     const aiResponse = await axios.post(`${BASE_URL}/chat/completions`, aiRequestPayload, {
                         headers: {
-                            'Authorization': `Bearer ${deepseekurl}`,
+                            'Authorization': `Bearer ${openai_url}`,
                             'Content-Type': 'application/json'
                         }
                     });
@@ -443,4 +454,4 @@ exports.performResearch = async (req, res) => {
             details: error.message
         });
     }
-};
+}
