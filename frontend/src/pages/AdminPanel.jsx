@@ -212,7 +212,7 @@
                       type="text"
                       value={influencerName}
                       onChange={(e) => setInfluencerName(e.target.value)}
-                      placeholder="Enter influencer name"
+                      placeholder="Enter influencer twitter handle name"
                       className="w-full bg-[#0D1117] border border-[#30363D] rounded pl-10 pr-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-emerald-500"
                     />
                   </div>
@@ -283,6 +283,7 @@
               
             </div>
             <div>
+            
   <label className="block text-sm font-medium mb-2">No of Tweets</label>
   <input
     type="number"
